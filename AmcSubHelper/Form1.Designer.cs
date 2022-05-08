@@ -41,6 +41,11 @@
             this.currentTimeLabel = new System.Windows.Forms.Label();
             this.totalTimeLabel = new System.Windows.Forms.Label();
             this.slashLabel = new System.Windows.Forms.Label();
+            this.currentSubtitleLabel = new System.Windows.Forms.Label();
+            this.currentSubtitleIndicatorLabel = new System.Windows.Forms.Label();
+            this.selectSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.selectedSubtitleFileText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -52,7 +57,8 @@
             // 
             this.menuItem1.Index = 0;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.selectAudioFileMenuItem});
+            this.selectAudioFileMenuItem,
+            this.selectSubtitleFileMenuItem});
             this.menuItem1.Text = "File";
             // 
             // selectAudioFileMenuItem
@@ -67,9 +73,9 @@
             this.selectedfileLabel.AutoSize = true;
             this.selectedfileLabel.Location = new System.Drawing.Point(13, 13);
             this.selectedfileLabel.Name = "selectedfileLabel";
-            this.selectedfileLabel.Size = new System.Drawing.Size(68, 13);
+            this.selectedfileLabel.Size = new System.Drawing.Size(97, 13);
             this.selectedfileLabel.TabIndex = 0;
-            this.selectedfileLabel.Text = "Selected file:";
+            this.selectedfileLabel.Text = "Selected audio file:";
             // 
             // selectedFileActualLabel
             // 
@@ -144,11 +150,56 @@
             this.slashLabel.TabIndex = 8;
             this.slashLabel.Text = "/";
             // 
+            // currentSubtitleLabel
+            // 
+            this.currentSubtitleLabel.AutoSize = true;
+            this.currentSubtitleLabel.Location = new System.Drawing.Point(13, 187);
+            this.currentSubtitleLabel.Name = "currentSubtitleLabel";
+            this.currentSubtitleLabel.Size = new System.Drawing.Size(80, 13);
+            this.currentSubtitleLabel.TabIndex = 9;
+            this.currentSubtitleLabel.Text = "Current subtitle:";
+            // 
+            // currentSubtitleIndicatorLabel
+            // 
+            this.currentSubtitleIndicatorLabel.AutoSize = true;
+            this.currentSubtitleIndicatorLabel.Location = new System.Drawing.Point(19, 209);
+            this.currentSubtitleIndicatorLabel.Name = "currentSubtitleIndicatorLabel";
+            this.currentSubtitleIndicatorLabel.Size = new System.Drawing.Size(90, 13);
+            this.currentSubtitleIndicatorLabel.TabIndex = 10;
+            this.currentSubtitleIndicatorLabel.Text = "<no file selected>";
+            // 
+            // selectSubtitleFileMenuItem
+            // 
+            this.selectSubtitleFileMenuItem.Index = 1;
+            this.selectSubtitleFileMenuItem.Text = "Select subtitle file";
+            this.selectSubtitleFileMenuItem.Click += new System.EventHandler(this.selectSubtitleFileMenuItem_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 163);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Selected subtitle file:";
+            // 
+            // selectedSubtitleFileText
+            // 
+            this.selectedSubtitleFileText.AutoSize = true;
+            this.selectedSubtitleFileText.Location = new System.Drawing.Point(123, 162);
+            this.selectedSubtitleFileText.Name = "selectedSubtitleFileText";
+            this.selectedSubtitleFileText.Size = new System.Drawing.Size(0, 13);
+            this.selectedSubtitleFileText.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.selectedSubtitleFileText);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.currentSubtitleIndicatorLabel);
+            this.Controls.Add(this.currentSubtitleLabel);
             this.Controls.Add(this.slashLabel);
             this.Controls.Add(this.totalTimeLabel);
             this.Controls.Add(this.currentTimeLabel);
@@ -180,5 +231,10 @@
         private System.Windows.Forms.Label currentTimeLabel;
         private System.Windows.Forms.Label totalTimeLabel;
         private System.Windows.Forms.Label slashLabel;
+        private System.Windows.Forms.Label currentSubtitleLabel;
+        private System.Windows.Forms.Label currentSubtitleIndicatorLabel;
+        private System.Windows.Forms.MenuItem selectSubtitleFileMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label selectedSubtitleFileText;
     }
 }

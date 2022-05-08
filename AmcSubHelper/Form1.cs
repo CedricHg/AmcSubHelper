@@ -1,6 +1,9 @@
 ﻿using NAudio.Vorbis;
 using NAudio.Wave;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -10,12 +13,15 @@ namespace AmcSubHelper
     public partial class Form1 : Form
     {
         private string _selectedAudioFilePath;
+        private string _selectedSubtitleFilePath;
 
         // For playback
         private WaveOutEvent _outputDevice;
         private VorbisWaveReader _vorbisReader;
         private DispatcherTimer _playTimer;
-        private bool _stopped;
+
+        // For subs
+        private Dictionary<string, string> _timingsDict;
 
         public Form1()
         {
@@ -51,11 +57,32 @@ namespace AmcSubHelper
             }
         }
 
+        private void selectSubtitleFileMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    _selectedSubtitleFilePath = ofd.FileName;
+                    selectedSubtitleFileText.Text = _selectedSubtitleFilePath;
+                    currentSubtitleIndicatorLabel.Text = "";
+
+                    var lines = File.ReadAllLines(_selectedSubtitleFilePath);
+                    _timingsDict = lines.ToList()
+                        .Select(x => new
+                        {
+                            Time = x.Substring(0, x.IndexOf('|')),
+                            Line = x.Substring(x.IndexOf('|') + 1)
+                        })
+                        .ToDictionary(x => x.Time, x => x.Line);
+                }
+            }
+        }
+
         private void playButton_Click(object sender, EventArgs e)
         {
             _outputDevice.Play();
             _playTimer.Start();
-            _stopped = false;
         }
 
         private void pauseButton_Click(object sender, EventArgs e)
@@ -64,7 +91,6 @@ namespace AmcSubHelper
             _playTimer.Stop();
             int ms = (int)GetCurrentAudioPosition();
             soundProgressBar.Value = ms;
-            _stopped = true;
             var timespan = TimeSpan.FromMilliseconds(ms);
             currentTimeLabel.Text = FormatTimespan(timespan);
         }
@@ -74,9 +100,9 @@ namespace AmcSubHelper
             _outputDevice?.Stop();
             _playTimer.Stop();
             soundProgressBar.Value = 0;
-            _stopped = true;
             _vorbisReader.Position = 0;
             currentTimeLabel.Text = "00:00.000";
+            currentSubtitleIndicatorLabel.Text = "";
         }
 
         private void playTimer_Tick(object sender, EventArgs e)
@@ -85,6 +111,7 @@ namespace AmcSubHelper
             soundProgressBar.Value = ms;
             var timespan = TimeSpan.FromMilliseconds(ms);
             currentTimeLabel.Text = FormatTimespan(timespan);
+            currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(timespan);
         }
 
         private double GetCurrentAudioPosition()
@@ -97,6 +124,29 @@ namespace AmcSubHelper
         private string FormatTimespan(TimeSpan span)
         {
             return new DateTime(span.Ticks).ToString("mm:ss.fff");
+        }
+
+        private string GetCurrentSubtitle(TimeSpan span)
+        {
+            var result = string.Empty;
+
+            foreach (var timestring in _timingsDict.Keys)
+            {
+                var colonIdx = timestring.IndexOf(':');
+                var dotIdx = timestring.IndexOf('.');
+                var minutes = int.Parse(timestring.Substring(0, 2));
+                var seconds = int.Parse(timestring.Substring(colonIdx + 1, 2));
+                var milliseconds = int.Parse(timestring.Substring(dotIdx + 1, 3));
+
+                var checkspan = new TimeSpan(0, 0, minutes, seconds, milliseconds);
+
+                if (checkspan <= span)
+                {
+                    result = _timingsDict[timestring];
+                }
+            }
+
+            return result;
         }
     }
 }
