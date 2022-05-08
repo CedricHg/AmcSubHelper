@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using NAudio.Vorbis;
+﻿using NAudio.Vorbis;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
+using System;
+using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace AmcSubHelper
 {
@@ -19,8 +12,10 @@ namespace AmcSubHelper
         private string _selectedAudioFilePath;
 
         // For playback
-        private WaveOutEvent outputDevice;
+        private WaveOutEvent _outputDevice;
         private VorbisWaveReader _vorbisReader;
+        private DispatcherTimer _playTimer;
+        private bool _stopped;
 
         public Form1()
         {
@@ -34,28 +29,74 @@ namespace AmcSubHelper
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     _selectedAudioFilePath = ofd.FileName;
-
                     selectedFileActualLabel.Text = _selectedAudioFilePath;
+
+                    if (_outputDevice == null)
+                    {
+                        _outputDevice = new WaveOutEvent();
+                        // TODO outputDevice.PlaybackStopped += OnPlaybackStopped;
+                    }
+
+                    _vorbisReader = new NAudio.Vorbis.VorbisWaveReader(_selectedAudioFilePath);
+                    soundProgressBar.Maximum = (int)_vorbisReader.TotalTime.TotalMilliseconds;
+                    totalTimeLabel.Text = FormatTimespan(_vorbisReader.TotalTime);
+                    currentTimeLabel.Text = "00:00.000";
+
+                    _playTimer = new DispatcherTimer();
+                    _playTimer.Interval = TimeSpan.FromMilliseconds(1);
+                    _playTimer.Tick += new EventHandler(playTimer_Tick);
+
+                    _outputDevice.Init(_vorbisReader);
                 }
             }
         }
 
         private void playButton_Click(object sender, EventArgs e)
         {
-            if (outputDevice == null)
-            {
-                outputDevice = new WaveOutEvent();
-                // TODO outputDevice.PlaybackStopped += OnPlaybackStopped;
-            }
+            _outputDevice.Play();
+            _playTimer.Start();
+            _stopped = false;
+        }
 
-            if (_vorbisReader == null)
-            {
-                // For now, assume OGG file
-                _vorbisReader = new NAudio.Vorbis.VorbisWaveReader(_selectedAudioFilePath);
-                outputDevice.Init(_vorbisReader);
-            }
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            _outputDevice?.Pause();
+            _playTimer.Stop();
+            int ms = (int)GetCurrentAudioPosition();
+            soundProgressBar.Value = ms;
+            _stopped = true;
+            var timespan = TimeSpan.FromMilliseconds(ms);
+            currentTimeLabel.Text = FormatTimespan(timespan);
+        }
 
-            outputDevice.Play();
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            _outputDevice?.Stop();
+            _playTimer.Stop();
+            soundProgressBar.Value = 0;
+            _stopped = true;
+            _vorbisReader.Position = 0;
+            currentTimeLabel.Text = "00:00.000";
+        }
+
+        private void playTimer_Tick(object sender, EventArgs e)
+        {
+            int ms = (int)GetCurrentAudioPosition();
+            soundProgressBar.Value = ms;
+            var timespan = TimeSpan.FromMilliseconds(ms);
+            currentTimeLabel.Text = FormatTimespan(timespan);
+        }
+
+        private double GetCurrentAudioPosition()
+        {
+            var outputwf = _outputDevice.OutputWaveFormat;
+            double ms = _vorbisReader.Position * 1000.0 / outputwf.BitsPerSample / outputwf.Channels * 8 / outputwf.SampleRate;
+            return ms;
+        }
+
+        private string FormatTimespan(TimeSpan span)
+        {
+            return new DateTime(span.Ticks).ToString("mm:ss.fff");
         }
     }
 }
