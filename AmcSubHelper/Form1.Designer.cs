@@ -34,6 +34,7 @@
             this.selectAudioFileMenuItem = new System.Windows.Forms.MenuItem();
             this.selectedfileLabel = new System.Windows.Forms.Label();
             this.selectedFileActualLabel = new System.Windows.Forms.Label();
+            this.playButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -72,11 +73,23 @@
             this.selectedFileActualLabel.Size = new System.Drawing.Size(0, 13);
             this.selectedFileActualLabel.TabIndex = 1;
             // 
+            // playButton
+            // 
+            this.playButton.Location = new System.Drawing.Point(16, 39);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(75, 23);
+            this.playButton.TabIndex = 2;
+            this.playButton.Text = "Play";
+            this.playButton.UseMnemonic = false;
+            this.playButton.UseVisualStyleBackColor = true;
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.playButton);
             this.Controls.Add(this.selectedFileActualLabel);
             this.Controls.Add(this.selectedfileLabel);
             this.Menu = this.mainMenu1;
@@ -94,5 +107,6 @@
         private System.Windows.Forms.MenuItem selectAudioFileMenuItem;
         private System.Windows.Forms.Label selectedfileLabel;
         private System.Windows.Forms.Label selectedFileActualLabel;
+        private System.Windows.Forms.Button playButton;
     }
 }
