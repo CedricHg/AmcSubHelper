@@ -1,6 +1,6 @@
 ﻿namespace AmcSubHelper
 {
-    partial class Form1
+    partial class AmcSubHelperForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,9 +31,15 @@
             this.components = new System.ComponentModel.Container();
             this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
             this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.openProjectMenuItem = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.selectAudioFileMenuItem = new System.Windows.Forms.MenuItem();
             this.selectSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
+            this.menuItem4 = new System.Windows.Forms.MenuItem();
+            this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.saveProjectMenuItem = new System.Windows.Forms.MenuItem();
+            this.menuItem7 = new System.Windows.Forms.MenuItem();
             this.selectedfileLabel = new System.Windows.Forms.Label();
             this.selectedFileActualLabel = new System.Windows.Forms.Label();
             this.playButton = new System.Windows.Forms.Button();
@@ -46,12 +52,6 @@
             this.currentSubtitleIndicatorLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.selectedSubtitleFileText = new System.Windows.Forms.Label();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.menuItem3 = new System.Windows.Forms.MenuItem();
-            this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
-            this.menuItem6 = new System.Windows.Forms.MenuItem();
-            this.menuItem7 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -63,7 +63,7 @@
             // 
             this.menuItem1.Index = 0;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem2,
+            this.openProjectMenuItem,
             this.menuItem3,
             this.selectAudioFileMenuItem,
             this.selectSubtitleFileMenuItem,
@@ -75,26 +75,59 @@
             this.menuItem1.Shortcut = System.Windows.Forms.Shortcut.ShiftF1;
             this.menuItem1.Text = "File";
             // 
+            // openProjectMenuItem
+            // 
+            this.openProjectMenuItem.Index = 0;
+            this.openProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
+            this.openProjectMenuItem.Text = "Open project";
+            this.openProjectMenuItem.Click += new System.EventHandler(this.openProjectMenuItem_Click);
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = 1;
+            this.menuItem3.Text = "-";
+            // 
             // selectAudioFileMenuItem
             // 
-            this.selectAudioFileMenuItem.Index = 1;
+            this.selectAudioFileMenuItem.Index = 2;
             this.selectAudioFileMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftA;
             this.selectAudioFileMenuItem.Text = "Import audio file";
             this.selectAudioFileMenuItem.Click += new System.EventHandler(this.selectAudioFileMenuItem_Click);
             // 
             // selectSubtitleFileMenuItem
             // 
-            this.selectSubtitleFileMenuItem.Index = 2;
+            this.selectSubtitleFileMenuItem.Index = 3;
             this.selectSubtitleFileMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
             this.selectSubtitleFileMenuItem.Text = "Import subtitle file";
             this.selectSubtitleFileMenuItem.Click += new System.EventHandler(this.selectSubtitleFileMenuItem_Click);
             // 
+            // menuItem4
+            // 
+            this.menuItem4.Index = 4;
+            this.menuItem4.Text = "-";
+            // 
+            // menuItem5
+            // 
+            this.menuItem5.Index = 5;
+            this.menuItem5.Text = "Export CON script";
+            // 
+            // menuItem6
+            // 
+            this.menuItem6.Index = 6;
+            this.menuItem6.Text = "-";
+            // 
             // saveProjectMenuItem
             // 
-            this.saveProjectMenuItem.Index = 3;
+            this.saveProjectMenuItem.Index = 7;
             this.saveProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.saveProjectMenuItem.Text = "Save project";
             this.saveProjectMenuItem.Click += new System.EventHandler(this.saveProjectMenuItem_Click);
+            // 
+            // menuItem7
+            // 
+            this.menuItem7.Index = 8;
+            this.menuItem7.Shortcut = System.Windows.Forms.Shortcut.AltF4;
+            this.menuItem7.Text = "Exit";
             // 
             // selectedfileLabel
             // 
@@ -203,39 +236,7 @@
             this.selectedSubtitleFileText.Size = new System.Drawing.Size(0, 13);
             this.selectedSubtitleFileText.TabIndex = 12;
             // 
-            // menuItem2
-            // 
-            this.menuItem2.Index = 0;
-            this.menuItem2.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
-            this.menuItem2.Text = "Open project";
-            // 
-            // menuItem3
-            // 
-            this.menuItem3.Index = 1;
-            this.menuItem3.Text = "-";
-            // 
-            // menuItem4
-            // 
-            this.menuItem4.Index = 4;
-            this.menuItem4.Text = "-";
-            // 
-            // menuItem5
-            // 
-            this.menuItem5.Index = 5;
-            this.menuItem5.Text = "Export CON script";
-            // 
-            // menuItem6
-            // 
-            this.menuItem6.Index = 6;
-            this.menuItem6.Text = "-";
-            // 
-            // menuItem7
-            // 
-            this.menuItem7.Index = 8;
-            this.menuItem7.Shortcut = System.Windows.Forms.Shortcut.AltF4;
-            this.menuItem7.Text = "Exit";
-            // 
-            // Form1
+            // AmcSubHelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -253,8 +254,8 @@
             this.Controls.Add(this.selectedFileActualLabel);
             this.Controls.Add(this.selectedfileLabel);
             this.Menu = this.mainMenu1;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "AmcSubHelperForm";
+            this.Text = "AMC Subtitle Helper";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,7 +280,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label selectedSubtitleFileText;
         private System.Windows.Forms.MenuItem saveProjectMenuItem;
-        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem openProjectMenuItem;
         private System.Windows.Forms.MenuItem menuItem3;
         private System.Windows.Forms.MenuItem menuItem4;
         private System.Windows.Forms.MenuItem menuItem5;
