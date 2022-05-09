@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -55,21 +56,10 @@ namespace AmcSubHelper
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     _projectModel.SubtitleFilePath = ofd.FileName;
-                    HandleSubtitleFileImported(ofd.FileName);
-
+                    
                     var lines = File.ReadAllLines(ofd.FileName);
-                    _projectModel.SubtitleTimings = lines.ToList()
-                        .Select(x => new SubtitleTimeModel
-                        {
-                            Time = new TimeSpan(0,
-                                0,
-                                int.Parse(x.Substring(0, 2)),
-                                int.Parse(x.Substring(3, 2)),
-                                int.Parse(x.Substring(6, 3))),
-                            Line = x.Substring(x.IndexOf('|') + 1)
-                        })
-                        .ToList();
-
+                    _projectModel.InitTimingsFromLines(lines);
+                    HandleSubtitleFileImported(ofd.FileName, _projectModel.SubtitleTimings);
                 }
             }
         }
@@ -175,7 +165,7 @@ namespace AmcSubHelper
                     if (!string.IsNullOrWhiteSpace(_projectModel.SoundFilePath))
                     {
                         HandleSoundImported(_projectModel.SoundFilePath);
-                        HandleSubtitleFileImported(_projectModel.SubtitleFilePath);
+                        HandleSubtitleFileImported(_projectModel.SubtitleFilePath, _projectModel.SubtitleTimings);
                     }
                 }
             }
@@ -222,10 +212,26 @@ namespace AmcSubHelper
             playButton.Enabled = true;
         }
 
-        private void HandleSubtitleFileImported(string subtitleFilePath)
+        private void HandleSubtitleFileImported(string subtitleFilePath, List<SubtitleTimeModel> timings)
         {
             selectedSubtitleFileText.Text = subtitleFilePath;
             currentSubtitleIndicatorLabel.Text = "";
+
+            subtitleFileTextBox.Text = string.Join(Environment.NewLine, timings
+                .Select(t => t.ToString())
+                .ToList());
+        }
+
+        private void subtitleFileTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // Should probably figure out which line was changed exactly but this should perform fine anyway probably
+            var lines = subtitleFileTextBox.Text.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            _projectModel.InitTimingsFromLines(lines);
+        }
+
+        private void exportSubtitleFileMenuItem_Click(object sender, EventArgs e)
+        {
+            File.WriteAllLines(_projectModel.SubtitleFilePath, _projectModel.SubtitleTimings.Select(t => t.ToString()));
         }
     }
 }

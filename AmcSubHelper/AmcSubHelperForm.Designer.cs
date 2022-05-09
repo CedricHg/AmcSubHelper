@@ -37,6 +37,7 @@
             this.selectSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.exportSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.saveProjectMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem7 = new System.Windows.Forms.MenuItem();
@@ -52,6 +53,7 @@
             this.currentSubtitleIndicatorLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.selectedSubtitleFileText = new System.Windows.Forms.Label();
+            this.subtitleFileTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -69,6 +71,7 @@
             this.selectSubtitleFileMenuItem,
             this.menuItem4,
             this.menuItem5,
+            this.exportSubtitleFileMenuItem,
             this.menuItem6,
             this.saveProjectMenuItem,
             this.menuItem7});
@@ -111,21 +114,28 @@
             this.menuItem5.Index = 5;
             this.menuItem5.Text = "Export CON script";
             // 
+            // exportSubtitleFileMenuItem
+            // 
+            this.exportSubtitleFileMenuItem.Index = 6;
+            this.exportSubtitleFileMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftX;
+            this.exportSubtitleFileMenuItem.Text = "Export subtitle file";
+            this.exportSubtitleFileMenuItem.Click += new System.EventHandler(this.exportSubtitleFileMenuItem_Click);
+            // 
             // menuItem6
             // 
-            this.menuItem6.Index = 6;
+            this.menuItem6.Index = 7;
             this.menuItem6.Text = "-";
             // 
             // saveProjectMenuItem
             // 
-            this.saveProjectMenuItem.Index = 7;
+            this.saveProjectMenuItem.Index = 8;
             this.saveProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.saveProjectMenuItem.Text = "Save project";
             this.saveProjectMenuItem.Click += new System.EventHandler(this.saveProjectMenuItem_Click);
             // 
             // menuItem7
             // 
-            this.menuItem7.Index = 8;
+            this.menuItem7.Index = 9;
             this.menuItem7.Shortcut = System.Windows.Forms.Shortcut.AltF4;
             this.menuItem7.Text = "Exit";
             // 
@@ -236,11 +246,21 @@
             this.selectedSubtitleFileText.Size = new System.Drawing.Size(0, 13);
             this.selectedSubtitleFileText.TabIndex = 12;
             // 
+            // subtitleFileTextBox
+            // 
+            this.subtitleFileTextBox.Location = new System.Drawing.Point(15, 241);
+            this.subtitleFileTextBox.Name = "subtitleFileTextBox";
+            this.subtitleFileTextBox.Size = new System.Drawing.Size(773, 197);
+            this.subtitleFileTextBox.TabIndex = 13;
+            this.subtitleFileTextBox.Text = "";
+            this.subtitleFileTextBox.TextChanged += new System.EventHandler(this.subtitleFileTextBox_TextChanged);
+            // 
             // AmcSubHelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.subtitleFileTextBox);
             this.Controls.Add(this.selectedSubtitleFileText);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.currentSubtitleIndicatorLabel);
@@ -286,5 +306,7 @@
         private System.Windows.Forms.MenuItem menuItem5;
         private System.Windows.Forms.MenuItem menuItem6;
         private System.Windows.Forms.MenuItem menuItem7;
+        private System.Windows.Forms.RichTextBox subtitleFileTextBox;
+        private System.Windows.Forms.MenuItem exportSubtitleFileMenuItem;
     }
 }
