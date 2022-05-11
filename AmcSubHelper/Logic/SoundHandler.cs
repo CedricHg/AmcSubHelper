@@ -57,10 +57,33 @@ namespace AmcSubHelper.Logic
             IsPlaying = false;
         }
 
+        public void RewindOneSec()
+        {
+            int cursec = (int)_vorbisReader.CurrentTime.TotalSeconds;
+            int newPosition = _vorbisReader.WaveFormat.AverageBytesPerSecond * (cursec - 1);
+            _vorbisReader.Position = newPosition < 0 ? 0 : newPosition;
+        }
+
+        public void ForwardOneSec()
+        {
+            int cursec = (int)_vorbisReader.CurrentTime.TotalSeconds;
+            int newPosition = _vorbisReader.WaveFormat.AverageBytesPerSecond * (cursec + 1);
+            int maxPosition = _vorbisReader.WaveFormat.AverageBytesPerSecond * (int)_vorbisReader.TotalTime.TotalSeconds;
+            _vorbisReader.Position = maxPosition < newPosition ? maxPosition : newPosition; 
+        }
+
+        public void SetAtSec(int second)
+        {
+            int newPosition = _vorbisReader.WaveFormat.AverageBytesPerSecond * second;
+            int maxPosition = _vorbisReader.WaveFormat.AverageBytesPerSecond * (int)_vorbisReader.TotalTime.TotalSeconds;
+            _vorbisReader.Position = newPosition < 0 ? 0 
+                : maxPosition < newPosition ? maxPosition
+                : newPosition;
+        }
+
         public AudioPosition GetCurrentAudioPosition()
         {
-            var outputwf = _outputDevice.OutputWaveFormat;
-            double ms = _vorbisReader.Position * 1000.0 / outputwf.BitsPerSample / outputwf.Channels * 8 / outputwf.SampleRate;
+            double ms = _vorbisReader.CurrentTime.TotalMilliseconds;
             return new AudioPosition(ms);
         }
 

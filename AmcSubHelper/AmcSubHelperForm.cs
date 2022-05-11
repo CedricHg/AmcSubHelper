@@ -13,7 +13,9 @@ namespace AmcSubHelper
     {
         private SubProjectModel _projectModel = new SubProjectModel();
         private SoundHandler _soundHandler;
-        
+
+        private bool soundTrackBarMouseDown = false;
+
         public AmcSubHelperForm()
         {
             this.Icon = new System.Drawing.Icon("0NfSOv.ico");
@@ -21,6 +23,8 @@ namespace AmcSubHelper
 
             playButton.Enabled = false;
             stopButton.Enabled = false;
+            rewindButton.Enabled = false;
+            forwardButton.Enabled = false;
         }
 
         private void selectAudioFileMenuItem_Click(object sender, EventArgs e)
@@ -58,16 +62,18 @@ namespace AmcSubHelper
 
         private void playButton_Click(object sender, EventArgs e)
         {
+            stopButton.Enabled = true;
+            rewindButton.Enabled = true;
+            forwardButton.Enabled = true;
+
             if (!_soundHandler.IsPlaying)
             {
                 playButton.Text = "Pause";
-                stopButton.Enabled = true;
                 _soundHandler?.Play();
             }
             else
             {
                 playButton.Text = "Play";
-                stopButton.Enabled = true;
                 _soundHandler?.Pause();
             }
         }
@@ -75,11 +81,13 @@ namespace AmcSubHelper
         private void stopButton_Click(object sender, EventArgs e)
         {
             _soundHandler?.Stop();
-            soundProgressBar.Value = 0;
+            soundProgressTrackBar.Value = 0;
             currentTimeLabel.Text = "00:00.000";
             currentSubtitleIndicatorLabel.Text = "";
             playButton.Text = "Play";
             stopButton.Enabled = false;
+            rewindButton.Enabled = false;
+            forwardButton.Enabled = false;
         }
 
         private string FormatTimespan(TimeSpan span)
@@ -149,8 +157,8 @@ namespace AmcSubHelper
             _soundHandler.PositionChanged += SoundHandler_PositionChanged;
 
             selectedFileActualLabel.Text = soundFilePath;
-            soundProgressBar.Value = 0;
-            soundProgressBar.Maximum = (int)_soundHandler.TotalTime.TotalMilliseconds;
+            soundProgressTrackBar.Value = 0;
+            soundProgressTrackBar.Maximum = (int)_soundHandler.TotalTime.TotalMilliseconds;
             totalTimeLabel.Text = FormatTimespan(_soundHandler.TotalTime);
             currentTimeLabel.Text = "00:00.000";
 
@@ -181,9 +189,47 @@ namespace AmcSubHelper
 
         private void SoundHandler_PositionChanged(object sender, AudioPosition e)
         {
-            soundProgressBar.Value = (int)e.PositionMs;
-            currentTimeLabel.Text = e.ToString();
-            currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(e.ToTimeSpan());
+            if (!soundTrackBarMouseDown)
+            {
+                soundProgressTrackBar.Value = (int)e.PositionMs;
+                currentTimeLabel.Text = e.ToString();
+                currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(e.ToTimeSpan());
+            }
+        }
+
+        private void rewindButton_Click(object sender, EventArgs e)
+        {
+            _soundHandler?.RewindOneSec();
+        }
+
+        private void forwardButton_Click(object sender, EventArgs e)
+        {
+            _soundHandler?.ForwardOneSec();
+        }
+
+        private void soundProgressTrackBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            soundTrackBarMouseDown = true;
+            _soundHandler?.Pause();
+        }
+
+        private void soundProgressTrackBar_MouseUp(object sender, MouseEventArgs e)
+        {
+            soundTrackBarMouseDown = false;
+            _soundHandler?.Play();
+        }
+
+        private void soundProgressTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            if (soundTrackBarMouseDown)
+            {
+                // Manually updating, value is in ms
+                _soundHandler?.SetAtSec(soundProgressTrackBar.Value / 1000);
+
+                var audioPos = new AudioPosition(soundProgressTrackBar.Value);
+                currentTimeLabel.Text = audioPos.ToString();
+                currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(audioPos.ToTimeSpan());
+            }
         }
     }
 }

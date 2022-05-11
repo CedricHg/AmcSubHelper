@@ -45,7 +45,6 @@
             this.selectedFileActualLabel = new System.Windows.Forms.Label();
             this.playButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
-            this.soundProgressBar = new System.Windows.Forms.ProgressBar();
             this.currentTimeLabel = new System.Windows.Forms.Label();
             this.totalTimeLabel = new System.Windows.Forms.Label();
             this.slashLabel = new System.Windows.Forms.Label();
@@ -54,6 +53,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.selectedSubtitleFileText = new System.Windows.Forms.Label();
             this.subtitleFileTextBox = new System.Windows.Forms.RichTextBox();
+            this.rewindButton = new System.Windows.Forms.Button();
+            this.forwardButton = new System.Windows.Forms.Button();
+            this.soundProgressTrackBar = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.soundProgressTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -177,13 +180,6 @@
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
-            // soundProgressBar
-            // 
-            this.soundProgressBar.Location = new System.Drawing.Point(16, 115);
-            this.soundProgressBar.Name = "soundProgressBar";
-            this.soundProgressBar.Size = new System.Drawing.Size(772, 23);
-            this.soundProgressBar.TabIndex = 5;
-            // 
             // currentTimeLabel
             // 
             this.currentTimeLabel.AutoSize = true;
@@ -255,11 +251,44 @@
             this.subtitleFileTextBox.Text = "";
             this.subtitleFileTextBox.TextChanged += new System.EventHandler(this.subtitleFileTextBox_TextChanged);
             // 
+            // rewindButton
+            // 
+            this.rewindButton.Location = new System.Drawing.Point(179, 38);
+            this.rewindButton.Name = "rewindButton";
+            this.rewindButton.Size = new System.Drawing.Size(92, 23);
+            this.rewindButton.TabIndex = 14;
+            this.rewindButton.Text = "Rewind 1 sec";
+            this.rewindButton.UseVisualStyleBackColor = true;
+            this.rewindButton.Click += new System.EventHandler(this.rewindButton_Click);
+            // 
+            // forwardButton
+            // 
+            this.forwardButton.Location = new System.Drawing.Point(278, 39);
+            this.forwardButton.Name = "forwardButton";
+            this.forwardButton.Size = new System.Drawing.Size(104, 23);
+            this.forwardButton.TabIndex = 15;
+            this.forwardButton.Text = "Forward 1 sec";
+            this.forwardButton.UseVisualStyleBackColor = true;
+            this.forwardButton.Click += new System.EventHandler(this.forwardButton_Click);
+            // 
+            // soundProgressTrackBar
+            // 
+            this.soundProgressTrackBar.Location = new System.Drawing.Point(16, 112);
+            this.soundProgressTrackBar.Name = "soundProgressTrackBar";
+            this.soundProgressTrackBar.Size = new System.Drawing.Size(772, 45);
+            this.soundProgressTrackBar.TabIndex = 16;
+            this.soundProgressTrackBar.ValueChanged += new System.EventHandler(this.soundProgressTrackBar_ValueChanged);
+            this.soundProgressTrackBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.soundProgressTrackBar_MouseDown);
+            this.soundProgressTrackBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.soundProgressTrackBar_MouseUp);
+            // 
             // AmcSubHelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.soundProgressTrackBar);
+            this.Controls.Add(this.forwardButton);
+            this.Controls.Add(this.rewindButton);
             this.Controls.Add(this.subtitleFileTextBox);
             this.Controls.Add(this.selectedSubtitleFileText);
             this.Controls.Add(this.label1);
@@ -268,7 +297,6 @@
             this.Controls.Add(this.slashLabel);
             this.Controls.Add(this.totalTimeLabel);
             this.Controls.Add(this.currentTimeLabel);
-            this.Controls.Add(this.soundProgressBar);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.selectedFileActualLabel);
@@ -276,6 +304,7 @@
             this.Menu = this.mainMenu1;
             this.Name = "AmcSubHelperForm";
             this.Text = "AMC Subtitle Helper";
+            ((System.ComponentModel.ISupportInitialize)(this.soundProgressTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -290,7 +319,6 @@
         private System.Windows.Forms.Label selectedFileActualLabel;
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.Button stopButton;
-        private System.Windows.Forms.ProgressBar soundProgressBar;
         private System.Windows.Forms.Label currentTimeLabel;
         private System.Windows.Forms.Label totalTimeLabel;
         private System.Windows.Forms.Label slashLabel;
@@ -308,5 +336,8 @@
         private System.Windows.Forms.MenuItem menuItem7;
         private System.Windows.Forms.RichTextBox subtitleFileTextBox;
         private System.Windows.Forms.MenuItem exportSubtitleFileMenuItem;
+        private System.Windows.Forms.Button rewindButton;
+        private System.Windows.Forms.Button forwardButton;
+        private System.Windows.Forms.TrackBar soundProgressTrackBar;
     }
 }
