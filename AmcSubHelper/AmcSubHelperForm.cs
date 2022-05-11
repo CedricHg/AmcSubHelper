@@ -182,11 +182,6 @@ namespace AmcSubHelper
             _projectModel.InitTimingsFromLines(lines);
         }
 
-        private void exportSubtitleFileMenuItem_Click(object sender, EventArgs e)
-        {
-            File.WriteAllLines(_projectModel.SubtitleFilePath, _projectModel.SubtitleTimings.Select(t => t.ToString()));
-        }
-
         private void SoundHandler_PositionChanged(object sender, AudioPosition e)
         {
             if (!soundTrackBarMouseDown)
@@ -242,8 +237,15 @@ namespace AmcSubHelper
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     ConExporter.Export(sfd.FileName, _projectModel.SubtitleTimings);
+                    MessageBox.Show("CON File exported", "You did it", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void exitMenuItem_Click(object sender, EventArgs e)
+        {
+            _soundHandler.Dispose();
+            Application.Exit();
         }
     }
 }

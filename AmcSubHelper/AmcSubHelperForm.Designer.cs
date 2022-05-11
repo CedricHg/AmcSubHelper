@@ -37,10 +37,9 @@
             this.selectSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.conExportMenuItem = new System.Windows.Forms.MenuItem();
-            this.exportSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.saveProjectMenuItem = new System.Windows.Forms.MenuItem();
-            this.menuItem7 = new System.Windows.Forms.MenuItem();
+            this.exitMenuItem = new System.Windows.Forms.MenuItem();
             this.selectedfileLabel = new System.Windows.Forms.Label();
             this.selectedFileActualLabel = new System.Windows.Forms.Label();
             this.playButton = new System.Windows.Forms.Button();
@@ -74,10 +73,9 @@
             this.selectSubtitleFileMenuItem,
             this.menuItem4,
             this.conExportMenuItem,
-            this.exportSubtitleFileMenuItem,
             this.menuItem6,
             this.saveProjectMenuItem,
-            this.menuItem7});
+            this.exitMenuItem});
             this.menuItem1.Shortcut = System.Windows.Forms.Shortcut.ShiftF1;
             this.menuItem1.Text = "File";
             // 
@@ -115,33 +113,28 @@
             // conExportMenuItem
             // 
             this.conExportMenuItem.Index = 5;
+            this.conExportMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftX;
             this.conExportMenuItem.Text = "Export CON script";
             this.conExportMenuItem.Click += new System.EventHandler(this.conExportMenuItem_Click);
             // 
-            // exportSubtitleFileMenuItem
-            // 
-            this.exportSubtitleFileMenuItem.Index = 6;
-            this.exportSubtitleFileMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftX;
-            this.exportSubtitleFileMenuItem.Text = "Export subtitle file";
-            this.exportSubtitleFileMenuItem.Click += new System.EventHandler(this.exportSubtitleFileMenuItem_Click);
-            // 
             // menuItem6
             // 
-            this.menuItem6.Index = 7;
+            this.menuItem6.Index = 6;
             this.menuItem6.Text = "-";
             // 
             // saveProjectMenuItem
             // 
-            this.saveProjectMenuItem.Index = 8;
+            this.saveProjectMenuItem.Index = 7;
             this.saveProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.saveProjectMenuItem.Text = "Save project";
             this.saveProjectMenuItem.Click += new System.EventHandler(this.saveProjectMenuItem_Click);
             // 
-            // menuItem7
+            // exitMenuItem
             // 
-            this.menuItem7.Index = 9;
-            this.menuItem7.Shortcut = System.Windows.Forms.Shortcut.AltF4;
-            this.menuItem7.Text = "Exit";
+            this.exitMenuItem.Index = 8;
+            this.exitMenuItem.Shortcut = System.Windows.Forms.Shortcut.AltF4;
+            this.exitMenuItem.Text = "Exit";
+            this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
             // selectedfileLabel
             // 
@@ -334,11 +327,10 @@
         private System.Windows.Forms.MenuItem menuItem4;
         private System.Windows.Forms.MenuItem conExportMenuItem;
         private System.Windows.Forms.MenuItem menuItem6;
-        private System.Windows.Forms.MenuItem menuItem7;
         private System.Windows.Forms.RichTextBox subtitleFileTextBox;
-        private System.Windows.Forms.MenuItem exportSubtitleFileMenuItem;
         private System.Windows.Forms.Button rewindButton;
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.TrackBar soundProgressTrackBar;
+        private System.Windows.Forms.MenuItem exitMenuItem;
     }
 }
