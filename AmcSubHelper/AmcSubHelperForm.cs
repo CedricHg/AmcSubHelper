@@ -99,7 +99,7 @@ namespace AmcSubHelper
         {
             var result = string.Empty;
 
-            _projectModel.SubtitleTimings.ForEach(model =>
+            _projectModel?.SubtitleTimings?.ForEach(model =>
             {
                 if (model.Time <= span)
                 {
