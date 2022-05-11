@@ -1,13 +1,10 @@
-﻿using System;
+﻿using AmcSubHelper.Logic;
+using AmcSubHelper.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Threading;
-using AmcSubHelper.Logic;
-using AmcSubHelper.Models;
-using NAudio.Vorbis;
-using NAudio.Wave;
 
 namespace AmcSubHelper
 {
@@ -15,12 +12,7 @@ namespace AmcSubHelper
     public partial class AmcSubHelperForm : Form
     {
         private SubProjectModel _projectModel = new SubProjectModel();
-
-        // For playback
-        private WaveOutEvent _outputDevice;
-        private VorbisWaveReader _vorbisReader;
-        private DispatcherTimer _playTimer;
-        private bool _isPlaying;
+        private SoundHandler _soundHandler;
         
         public AmcSubHelperForm()
         {
@@ -66,55 +58,28 @@ namespace AmcSubHelper
 
         private void playButton_Click(object sender, EventArgs e)
         {
-            if (!_isPlaying)
+            if (!_soundHandler.IsPlaying)
             {
-                _outputDevice.Play();
-                _playTimer.Start();
-                _isPlaying = true;
                 playButton.Text = "Pause";
                 stopButton.Enabled = true;
+                _soundHandler?.Play();
             }
             else
             {
-                _outputDevice?.Pause();
-                _playTimer.Stop();
-                int ms = (int)GetCurrentAudioPosition();
-                soundProgressBar.Value = ms;
-                var timespan = TimeSpan.FromMilliseconds(ms);
-                currentTimeLabel.Text = FormatTimespan(timespan);
-                _isPlaying = false;
                 playButton.Text = "Play";
                 stopButton.Enabled = true;
+                _soundHandler?.Pause();
             }
         }
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-            _outputDevice?.Stop();
-            _playTimer.Stop();
+            _soundHandler?.Stop();
             soundProgressBar.Value = 0;
-            _vorbisReader.Position = 0;
             currentTimeLabel.Text = "00:00.000";
             currentSubtitleIndicatorLabel.Text = "";
             playButton.Text = "Play";
-            _isPlaying = false;
             stopButton.Enabled = false;
-        }
-
-        private void playTimer_Tick(object sender, EventArgs e)
-        {
-            int ms = (int)GetCurrentAudioPosition();
-            soundProgressBar.Value = ms;
-            var timespan = TimeSpan.FromMilliseconds(ms);
-            currentTimeLabel.Text = FormatTimespan(timespan);
-            currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(timespan);
-        }
-
-        private double GetCurrentAudioPosition()
-        {
-            var outputwf = _outputDevice.OutputWaveFormat;
-            double ms = _vorbisReader.Position * 1000.0 / outputwf.BitsPerSample / outputwf.Channels * 8 / outputwf.SampleRate;
-            return ms;
         }
 
         private string FormatTimespan(TimeSpan span)
@@ -173,41 +138,21 @@ namespace AmcSubHelper
 
         private void HandleSoundImported(string soundFilePath)
         {
+            if (_soundHandler != null)
+            {
+                _soundHandler.PositionChanged -= SoundHandler_PositionChanged;
+                _soundHandler.Dispose();
+                _soundHandler = null;
+            }
+
+            _soundHandler = SoundHandler.CreateFromPath(soundFilePath);
+            _soundHandler.PositionChanged += SoundHandler_PositionChanged;
+
             selectedFileActualLabel.Text = soundFilePath;
-
-            if (_outputDevice != null)
-            {
-                _outputDevice.Stop();
-                _outputDevice.Dispose();
-                _outputDevice = null;
-            }
-
-            _outputDevice = new WaveOutEvent();
-
-            if (_vorbisReader != null)
-            {
-                _vorbisReader.Dispose();
-                _vorbisReader = null;
-            }
-            _vorbisReader = new VorbisWaveReader(soundFilePath);
-
             soundProgressBar.Value = 0;
-            soundProgressBar.Maximum = (int)_vorbisReader.TotalTime.TotalMilliseconds;
-            totalTimeLabel.Text = FormatTimespan(_vorbisReader.TotalTime);
+            soundProgressBar.Maximum = (int)_soundHandler.TotalTime.TotalMilliseconds;
+            totalTimeLabel.Text = FormatTimespan(_soundHandler.TotalTime);
             currentTimeLabel.Text = "00:00.000";
-
-            if (_playTimer != null)
-            {
-                _playTimer.Stop();
-                _playTimer.Tick -= playTimer_Tick;
-                _playTimer = null;
-            }
-
-            _playTimer = new DispatcherTimer();
-            _playTimer.Interval = TimeSpan.FromMilliseconds(1);
-            _playTimer.Tick += playTimer_Tick;
-
-            _outputDevice.Init(_vorbisReader);
 
             playButton.Enabled = true;
         }
@@ -232,6 +177,13 @@ namespace AmcSubHelper
         private void exportSubtitleFileMenuItem_Click(object sender, EventArgs e)
         {
             File.WriteAllLines(_projectModel.SubtitleFilePath, _projectModel.SubtitleTimings.Select(t => t.ToString()));
+        }
+
+        private void SoundHandler_PositionChanged(object sender, AudioPosition e)
+        {
+            soundProgressBar.Value = (int)e.PositionMs;
+            currentTimeLabel.Text = e.ToString();
+            currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(e.ToTimeSpan());
         }
     }
 }

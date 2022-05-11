@@ -112,6 +112,8 @@
     <Compile Include="AmcSubHelperForm.Designer.cs">
       <DependentUpon>AmcSubHelperForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\SoundHandler.cs" />
+    <Compile Include="Models\AudioPosition.cs" />
     <Compile Include="Models\SubProjectModel.cs" />
     <Compile Include="Models\SubtitleTimeModel.cs" />
     <Compile Include="Program.cs" />
