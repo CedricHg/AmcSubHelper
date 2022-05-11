@@ -36,7 +36,7 @@
             this.selectAudioFileMenuItem = new System.Windows.Forms.MenuItem();
             this.selectSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.conExportMenuItem = new System.Windows.Forms.MenuItem();
             this.exportSubtitleFileMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.saveProjectMenuItem = new System.Windows.Forms.MenuItem();
@@ -73,7 +73,7 @@
             this.selectAudioFileMenuItem,
             this.selectSubtitleFileMenuItem,
             this.menuItem4,
-            this.menuItem5,
+            this.conExportMenuItem,
             this.exportSubtitleFileMenuItem,
             this.menuItem6,
             this.saveProjectMenuItem,
@@ -112,10 +112,11 @@
             this.menuItem4.Index = 4;
             this.menuItem4.Text = "-";
             // 
-            // menuItem5
+            // conExportMenuItem
             // 
-            this.menuItem5.Index = 5;
-            this.menuItem5.Text = "Export CON script";
+            this.conExportMenuItem.Index = 5;
+            this.conExportMenuItem.Text = "Export CON script";
+            this.conExportMenuItem.Click += new System.EventHandler(this.conExportMenuItem_Click);
             // 
             // exportSubtitleFileMenuItem
             // 
@@ -331,7 +332,7 @@
         private System.Windows.Forms.MenuItem openProjectMenuItem;
         private System.Windows.Forms.MenuItem menuItem3;
         private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem conExportMenuItem;
         private System.Windows.Forms.MenuItem menuItem6;
         private System.Windows.Forms.MenuItem menuItem7;
         private System.Windows.Forms.RichTextBox subtitleFileTextBox;

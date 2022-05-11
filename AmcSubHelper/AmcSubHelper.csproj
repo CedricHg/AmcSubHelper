@@ -105,6 +105,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\ConExporter.cs" />
     <Compile Include="Logic\ProjectExportImport.cs" />
     <Compile Include="AmcSubHelperForm.cs">
       <SubType>Form</SubType>

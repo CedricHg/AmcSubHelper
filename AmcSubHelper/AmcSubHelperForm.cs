@@ -231,5 +231,19 @@ namespace AmcSubHelper
                 currentSubtitleIndicatorLabel.Text = GetCurrentSubtitle(audioPos.ToTimeSpan());
             }
         }
+
+        private void conExportMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "CON file (*.con)|*.con";
+                sfd.RestoreDirectory = true;
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    ConExporter.Export(sfd.FileName, _projectModel.SubtitleTimings);
+                }
+            }
+        }
     }
 }
