@@ -50,7 +50,24 @@ namespace AmcSubHelper.Models
                     return null;
                 })
                 .Where(x => x != null)
+                .OrderBy(x => x.Time)
                 .ToList();
+        }
+
+        public void AddTime(TimeSpan time)
+        {
+            if (SubtitleTimings == null)
+            {
+                SubtitleTimings = new List<SubtitleTimeModel>();
+            }
+
+            SubtitleTimings.Add(new SubtitleTimeModel
+            {
+                Time = time,
+                Line = string.Empty
+            });
+
+            SubtitleTimings = SubtitleTimings.OrderBy(x => x.Time).ToList();
         }
     }
 }

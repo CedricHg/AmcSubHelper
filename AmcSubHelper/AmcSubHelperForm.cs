@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Timers;
 using System.Windows.Forms;
 
 namespace AmcSubHelper
@@ -33,6 +32,7 @@ namespace AmcSubHelper
             stopButton.Enabled = false;
             rewindButton.Enabled = false;
             forwardButton.Enabled = false;
+            markTimeButton.Enabled = false;
             soundProgressTrackBar.Enabled = false;
 
             selectedFileActualLabel.Text = string.Empty;
@@ -207,6 +207,7 @@ namespace AmcSubHelper
             currentTimeLabel.Text = "00:00.000";
 
             playButton.Enabled = true;
+            markTimeButton.Enabled = true;
 
             // Heart attack prevention
             if (soundImportedTrackbarDisableTimer != null)
@@ -276,6 +277,18 @@ namespace AmcSubHelper
         private void forwardButton_Click(object sender, EventArgs e)
         {
             _soundHandler?.ForwardOneSec();
+        }
+
+        private void markTimeButton_Click(object sender, EventArgs e)
+        {
+            if (_soundHandler != null)
+            {
+                _projectModel.AddTime(_soundHandler.GetCurrentAudioPosition().ToTimeSpan());
+
+                subtitleFileTextBox.Text = string.Join(Environment.NewLine, _projectModel.SubtitleTimings
+                    .Select(t => t.ToString())
+                    .ToList());
+            }   
         }
 
         private void soundProgressTrackBar_MouseDown(object sender, MouseEventArgs e)

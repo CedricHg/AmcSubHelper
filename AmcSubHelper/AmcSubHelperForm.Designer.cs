@@ -56,6 +56,7 @@
             this.forwardButton = new System.Windows.Forms.Button();
             this.soundProgressTrackBar = new System.Windows.Forms.TrackBar();
             this.newProjectMenuItem = new System.Windows.Forms.MenuItem();
+            this.markTimeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.soundProgressTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -284,11 +285,22 @@
             this.newProjectMenuItem.Text = "New project";
             this.newProjectMenuItem.Click += new System.EventHandler(this.newProjectMenuItem_Click);
             // 
+            // markTimeButton
+            // 
+            this.markTimeButton.Location = new System.Drawing.Point(388, 38);
+            this.markTimeButton.Name = "markTimeButton";
+            this.markTimeButton.Size = new System.Drawing.Size(98, 23);
+            this.markTimeButton.TabIndex = 17;
+            this.markTimeButton.Text = "Mark current time";
+            this.markTimeButton.UseVisualStyleBackColor = true;
+            this.markTimeButton.Click += new System.EventHandler(this.markTimeButton_Click);
+            // 
             // AmcSubHelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.markTimeButton);
             this.Controls.Add(this.soundProgressTrackBar);
             this.Controls.Add(this.forwardButton);
             this.Controls.Add(this.rewindButton);
@@ -343,5 +355,6 @@
         private System.Windows.Forms.TrackBar soundProgressTrackBar;
         private System.Windows.Forms.MenuItem exitMenuItem;
         private System.Windows.Forms.MenuItem newProjectMenuItem;
+        private System.Windows.Forms.Button markTimeButton;
     }
 }
