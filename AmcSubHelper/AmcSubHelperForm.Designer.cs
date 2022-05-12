@@ -55,6 +55,7 @@
             this.rewindButton = new System.Windows.Forms.Button();
             this.forwardButton = new System.Windows.Forms.Button();
             this.soundProgressTrackBar = new System.Windows.Forms.TrackBar();
+            this.newProjectMenuItem = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.soundProgressTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +68,7 @@
             // 
             this.menuItem1.Index = 0;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.newProjectMenuItem,
             this.openProjectMenuItem,
             this.menuItem3,
             this.selectAudioFileMenuItem,
@@ -81,57 +83,57 @@
             // 
             // openProjectMenuItem
             // 
-            this.openProjectMenuItem.Index = 0;
+            this.openProjectMenuItem.Index = 1;
             this.openProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
             this.openProjectMenuItem.Text = "Open project";
             this.openProjectMenuItem.Click += new System.EventHandler(this.openProjectMenuItem_Click);
             // 
             // menuItem3
             // 
-            this.menuItem3.Index = 1;
+            this.menuItem3.Index = 2;
             this.menuItem3.Text = "-";
             // 
             // selectAudioFileMenuItem
             // 
-            this.selectAudioFileMenuItem.Index = 2;
+            this.selectAudioFileMenuItem.Index = 3;
             this.selectAudioFileMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftA;
             this.selectAudioFileMenuItem.Text = "Import audio file";
             this.selectAudioFileMenuItem.Click += new System.EventHandler(this.selectAudioFileMenuItem_Click);
             // 
             // selectSubtitleFileMenuItem
             // 
-            this.selectSubtitleFileMenuItem.Index = 3;
+            this.selectSubtitleFileMenuItem.Index = 4;
             this.selectSubtitleFileMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
             this.selectSubtitleFileMenuItem.Text = "Import subtitle file";
             this.selectSubtitleFileMenuItem.Click += new System.EventHandler(this.selectSubtitleFileMenuItem_Click);
             // 
             // menuItem4
             // 
-            this.menuItem4.Index = 4;
+            this.menuItem4.Index = 5;
             this.menuItem4.Text = "-";
             // 
             // conExportMenuItem
             // 
-            this.conExportMenuItem.Index = 5;
+            this.conExportMenuItem.Index = 6;
             this.conExportMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftX;
             this.conExportMenuItem.Text = "Export CON script";
             this.conExportMenuItem.Click += new System.EventHandler(this.conExportMenuItem_Click);
             // 
             // menuItem6
             // 
-            this.menuItem6.Index = 6;
+            this.menuItem6.Index = 7;
             this.menuItem6.Text = "-";
             // 
             // saveProjectMenuItem
             // 
-            this.saveProjectMenuItem.Index = 7;
+            this.saveProjectMenuItem.Index = 8;
             this.saveProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.saveProjectMenuItem.Text = "Save project";
             this.saveProjectMenuItem.Click += new System.EventHandler(this.saveProjectMenuItem_Click);
             // 
             // exitMenuItem
             // 
-            this.exitMenuItem.Index = 8;
+            this.exitMenuItem.Index = 9;
             this.exitMenuItem.Shortcut = System.Windows.Forms.Shortcut.AltF4;
             this.exitMenuItem.Text = "Exit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
@@ -275,6 +277,13 @@
             this.soundProgressTrackBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.soundProgressTrackBar_MouseDown);
             this.soundProgressTrackBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.soundProgressTrackBar_MouseUp);
             // 
+            // newProjectMenuItem
+            // 
+            this.newProjectMenuItem.Index = 0;
+            this.newProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
+            this.newProjectMenuItem.Text = "New project";
+            this.newProjectMenuItem.Click += new System.EventHandler(this.newProjectMenuItem_Click);
+            // 
             // AmcSubHelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -298,6 +307,7 @@
             this.Menu = this.mainMenu1;
             this.Name = "AmcSubHelperForm";
             this.Text = "AMC Subtitle Helper";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AmcSubHelperForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.soundProgressTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -332,5 +342,6 @@
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.TrackBar soundProgressTrackBar;
         private System.Windows.Forms.MenuItem exitMenuItem;
+        private System.Windows.Forms.MenuItem newProjectMenuItem;
     }
 }

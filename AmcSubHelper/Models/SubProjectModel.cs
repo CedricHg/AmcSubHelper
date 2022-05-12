@@ -12,6 +12,18 @@ namespace AmcSubHelper.Models
 
         public List<SubtitleTimeModel> SubtitleTimings { get; set; }
 
+        public void DefaultTiming()
+        {
+            SubtitleTimings = new List<SubtitleTimeModel>
+            {
+                new SubtitleTimeModel
+                {
+                    Time = new TimeSpan(0, 0, 0, 0, 0),
+                    Line = string.Empty
+                }
+            };
+        }
+
         public void InitTimingsFromLines(string[] lines)
         {
             SubtitleTimings = lines.ToList()
